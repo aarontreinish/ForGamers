@@ -24,6 +24,11 @@ class CommunityDetailsViewController: UIViewController, UITableViewDataSource, U
     let db = Firestore.firestore()
     var selectedPost: Posts?
     var joinedCommunities: [String] = []
+    var hasUpVoted = false
+    var hasDownVoted = false
+    var hasVoted = false
+    var upVotedPosts: [Int] = []
+    var downVotedPosts: [Int] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -50,17 +55,22 @@ class CommunityDetailsViewController: UIViewController, UITableViewDataSource, U
     func getCommunityPosts() {
         let currentUser = Auth.auth().currentUser
         if let currentUser = currentUser {
-            db.collection("communities").document(community?.communityName ?? "").collection("Posts").getDocuments { (snapshot, error) in
+            db.collection("communities").document(community?.communityName ?? "").collection("Posts").addSnapshotListener { [weak self] (snapshot, error) in
+                self?.posts.removeAll()
                 if let snapshot = snapshot {
                     snapshot.documents.forEach { (document) in
-                        let model = try! FirestoreDecoder().decode(Posts.self, from: document.data())
-                        //print("Model: \(model)")
-                        self.posts.append(model)
-                        DispatchQueue.main.async {
-                            self.tableView.reloadData()
+                        do {
+                            let model = try FirestoreDecoder().decode(Posts.self, from: document.data())
+                            
+                            self?.posts.append(model)
+                            DispatchQueue.main.async {
+                                self?.tableView.reloadData()
+                            }
+                        } catch {
+                            print(error)
                         }
                     }
-                    print(self.posts)
+                    
                 } else {
                     print("Document does not exist")
                 }
@@ -176,19 +186,6 @@ class CommunityDetailsViewController: UIViewController, UITableViewDataSource, U
                     }
                 }
             }
-            
-//            let usersDocumentRef = db.collection("users").document(user.uid)
-//
-//
-//            usersDocumentRef.updateData([
-//                "joinedCommunities": FieldValue.arrayUnion([community?.communityName ?? ""])
-//            ]) { (error) in
-//                if error != nil {
-//                    print(error)
-//                } else {
-//                    print("User updated successfully")
-//                }
-//            }
         }
     }
     
@@ -208,18 +205,6 @@ class CommunityDetailsViewController: UIViewController, UITableViewDataSource, U
                     }
                 }
             }
-//            let usersDocumentRef = db.collection("users").document(user.uid)
-//
-//
-//            usersDocumentRef.updateData([
-//                "joinedCommunities": FieldValue.arrayRemove([community?.communityName ?? ""])
-//            ]) { (error) in
-//                if error != nil {
-//                    print(error)
-//                } else {
-//                    print("User updated successfully")
-//                }
-//            }
         }
     }
     
@@ -262,6 +247,7 @@ class CommunityDetailsViewController: UIViewController, UITableViewDataSource, U
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
         let post = posts[indexPath.row]
         
         selectedPost = post
@@ -274,14 +260,99 @@ class CommunityDetailsViewController: UIViewController, UITableViewDataSource, U
         let buttonTag = sender.tag
         let postRef = db.collection("communities").document(community?.communityName ?? "").collection("Posts").document(posts[buttonTag].postTitle)
         
-        // Note that increment() with no arguments increments by 1.
-        postRef.updateData([
-            "upVoteCount": FieldValue.increment(Int64())
-        ])
+        if hasDownVoted {
+            hasDownVoted = false
+            postRef.updateData([
+                "downVoteCount": FieldValue.increment(Int64(-1))
+            ]) { (error) in
+                if let error = error {
+                    print(error)
+                }
+            }
+            downVotedPosts = downVotedPosts.filter { $0 != buttonTag }
+            
+            postRef.updateData([
+                "upVoteCount": FieldValue.increment(Int64(1))
+            ]) { (error) in
+                if let error = error {
+                    print(error)
+                }
+            }
+            upVotedPosts.append(buttonTag)
+            hasUpVoted = true
+            
+        } else {
+            if upVotedPosts.contains(buttonTag) {
+                hasUpVoted = false
+                postRef.updateData([
+                    "upVoteCount": FieldValue.increment(Int64(-1))
+                ]) { (error) in
+                    if let error = error {
+                        print(error)
+                    }
+                }
+                upVotedPosts = upVotedPosts.filter { $0 != buttonTag }
+            } else {
+                hasUpVoted = true
+                postRef.updateData([
+                    "upVoteCount": FieldValue.increment(Int64(1))
+                ]) { (error) in
+                    if let error = error {
+                        print(error)
+                    }
+                }
+                upVotedPosts.append(buttonTag)
+            }
+        }
     }
     
     @objc func downVoteButtonAction(_ sender: UIButton) {
+        let buttonTag = sender.tag
+        let postRef = db.collection("communities").document(community?.communityName ?? "").collection("Posts").document(posts[buttonTag].postTitle)
         
+        if hasUpVoted {
+            hasUpVoted = false
+            postRef.updateData([
+                "upVoteCount": FieldValue.increment(Int64(-1))
+            ]) { (error) in
+                if let error = error {
+                    print(error)
+                }
+            }
+            upVotedPosts = upVotedPosts.filter { $0 != buttonTag }
+            
+            postRef.updateData([
+                "downVoteCount": FieldValue.increment(Int64(1))
+            ]) { (error) in
+                if let error = error {
+                    print(error)
+                }
+            }
+            downVotedPosts.append(buttonTag)
+            hasDownVoted = true
+        } else {
+            if downVotedPosts.contains(buttonTag) {
+                hasDownVoted = false
+                postRef.updateData([
+                    "downVoteCount": FieldValue.increment(Int64(-1))
+                ]) { (error) in
+                    if let error = error {
+                        print(error)
+                    }
+                }
+                downVotedPosts = downVotedPosts.filter { $0 != buttonTag }
+            } else {
+                hasDownVoted = true
+                postRef.updateData([
+                    "downVoteCount": FieldValue.increment(Int64(1))
+                ]) { (error) in
+                    if let error = error {
+                        print(error)
+                    }
+                }
+                downVotedPosts.append(buttonTag)
+            }
+        }
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -291,7 +362,7 @@ class CommunityDetailsViewController: UIViewController, UITableViewDataSource, U
             postViewController?.post = selectedPost
         } else if segue.identifier == "newPostSegue" {
             let newPostViewController = segue.destination as? NewPostViewController
-            
+            posts.removeAll()
             newPostViewController?.community = community
         }
     }

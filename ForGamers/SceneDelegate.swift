@@ -28,7 +28,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             window?.rootViewController = tabBarController
         } else {
             // Set you login view controller here as root view controller
-            let authNavigationController = storyboard.instantiateViewController(identifier: "FirstViewController")
+            let authNavigationController = storyboard.instantiateViewController(identifier: "InitialViewController")
             window?.rootViewController = authNavigationController
         }
     }

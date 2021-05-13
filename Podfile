@@ -15,6 +15,8 @@ pod 'Firebase/Auth'
 pod 'FirebaseFirestoreSwift'
 pod 'CodableFirebase'
 pod 'MessageKit'
+pod 'JGProgressHUD'
+pod 'paper-onboarding'
 
 # add pods for any other desired Firebase products
 # https://firebase.google.com/docs/ios/setup#available-pods

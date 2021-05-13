@@ -86,28 +86,12 @@ class SignUpViewController: UIViewController {
                                 }
                             }
                             
-                            let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                            let tabBarController = storyboard.instantiateViewController(identifier: "TabBarController")
-
-                            (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?.changeRootViewController(tabBarController)
+                            self?.performSegue(withIdentifier: "loginToOnboardingSegue", sender: self)
                             
-    //                        Firestore.firestore().collection("users").document(authData.user.uid).setData([
-    //                            "email": authData.user.email,
-    //                            "username": usernameText,
-    //                            "joinedCommunities": ["Rocket League", "Apex Legends"]
-    //                        ]) { err in
-    //                            if let err = err {
-    //                                print("Error writing document: \(err)")
-    //                            } else {
-    //                                print("Document successfully written!")
-    //                                let storyboard = UIStoryboard(name: "Main", bundle: nil)
-    //                                let tabBarController = storyboard.instantiateViewController(identifier: "TabBarController")
-    //
-    //                                // This is to get the SceneDelegate object from your view controller
-    //                                // then call the change root view controller function to change to main tab bar
-    //                                (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?.changeRootViewController(tabBarController)
-    //                            }
-    //                        }
+//                            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+//                            let tabBarController = storyboard.instantiateViewController(identifier: "TabBarController")
+//
+//                            (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?.changeRootViewController(tabBarController)
                         }
                     }
                 }

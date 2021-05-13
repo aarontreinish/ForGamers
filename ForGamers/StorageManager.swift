@@ -37,6 +37,26 @@ final class StorageManager {
         }
     }
     
+    public func uploadCommunityPicture(with data: Data, fileName: String, completion: @escaping UploadPictureCompletion) {
+        storage.child("communityImages/\(fileName)").putData(data, metadata: nil) { (metadata, error) in
+            guard error == nil else {
+                completion(.failure(StorageErrors.failedToUpload))
+                return
+            }
+            
+            self.storage.child("communityImages/\(fileName)").downloadURL { (url, error) in
+                guard let url = url else {
+                    completion(.failure(StorageErrors.failedToGetDownloadURL))
+                    return
+                }
+                
+                let urlString = url.absoluteString
+                print(urlString)
+                completion(.success(urlString))
+            }
+        }
+    }
+    
     public func downloadURL(for path: String, completion: @escaping (Result<URL, Error>) -> Void) {
         let reference = storage.child(path)
         

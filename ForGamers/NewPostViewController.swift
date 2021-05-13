@@ -9,12 +9,14 @@ import UIKit
 import FirebaseFirestore
 import CodableFirebase
 import FirebaseAuth
+import JGProgressHUD
 
 class NewPostViewController: UIViewController {
     @IBOutlet weak var postTextTextField: UITextField!
     
     let db = Firestore.firestore()
     var community: Communities?
+    let hud = JGProgressHUD()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,6 +25,7 @@ class NewPostViewController: UIViewController {
     }
     
     @IBAction func submitPostButtonAction(_ sender: Any) {
+        showHud()
         let user = Auth.auth().currentUser
         if let user = user {
             if let email = user.email {
@@ -30,13 +33,18 @@ class NewPostViewController: UIViewController {
                 let timestamp = Timestamp(date: Date())
                 let comments: [Comments] = []
                 
-                let model = Posts(postText: "", postTitle: postText ?? "", downVoteCount: 0, upVoteCount: 0, user: email, createdAt: timestamp, comments: comments)
+                guard let username = UserDefaults.standard.value(forKey: "username") as? String else { return }
+                
+                let model = Posts(postTitle: postText ?? "", downVoteCount: 0, upVoteCount: 0, user: username, createdAt: timestamp, comments: comments, community: community?.communityName ?? "")
                 let docData = try! FirestoreEncoder().encode(model)
-                db.collection("communities").document(community?.communityName ?? "").collection("Posts").document(postText ?? "").setData(docData) { error in
+                db.collection("communities").document(community?.communityName ?? "").collection("Posts").document(postText ?? "").setData(docData) { [weak self] error in
                     if let error = error {
                         print("Error writing document: \(error)")
                     } else {
                         print("Document successfully written!")
+                        self?.dismiss(animated: true) {
+                            self?.hideHud()
+                        }
                     }
                 }
     
@@ -62,6 +70,15 @@ class NewPostViewController: UIViewController {
 //                }
             }
         }
+    }
+    
+    func showHud() {
+        hud.textLabel.text = "Creating Post"
+        hud.show(in: self.view)
+    }
+    
+    func hideHud() {
+        hud.dismiss()
     }
     
     /*

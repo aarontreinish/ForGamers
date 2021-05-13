@@ -20,7 +20,7 @@ class PostViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        postTextLabel.text = post?.postText
+        postTextLabel.text = post?.postTitle
         
         let dateFormatter = DateFormatter()
         dateFormatter.dateStyle = .long

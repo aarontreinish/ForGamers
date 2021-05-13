@@ -19,30 +19,6 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Do any additional setup after loading the view.
-        
-//        let email = "example@gmail.com"
-//        let password = "fooPassword"
-//        Auth.auth().signIn(withEmail: email, password: password) { (authResult, error) in
-//            if let error = error as NSError? {
-//                switch AuthErrorCode(rawValue: error.code) {
-//                case .operationNotAllowed:
-//                // Error: Indicates that email and password accounts are not enabled. Enable them in the Auth section of the Firebase console.
-//                case .userDisabled:
-//                // Error: The user account has been disabled by an administrator.
-//                case .wrongPassword:
-//                // Error: The password is invalid or the user does not have a password.
-//                case .invalidEmail:
-//                // Error: Indicates the email address is malformed.
-//                default:
-//                    print("Error: \(error.localizedDescription)")
-//                }
-//            } else {
-//                print("User signs in successfully")
-//                let userInfo = Auth.auth().currentUser
-//                let email = userInfo?.email
-//            }
-//        }
     }
     
     func showErrorAlert(title: String, message: String) {
@@ -99,15 +75,21 @@ class LoginViewController: UIViewController {
         guard let email = emailTextField.text, let password = passwordTextField.text else { return }
         
         if isValidEmail(email) {
-            signIn(email: email, password: password) { (didSucceed, error) in
+            signIn(email: email, password: password) { [weak self] (didSucceed, error) in
                 if didSucceed == true {
-                    
-                    let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                    let tabBarController = storyboard.instantiateViewController(identifier: "TabBarController")
-                        
-                    // This is to get the SceneDelegate object from your view controller
-                    // then call the change root view controller function to change to main tab bar
-                    (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?.changeRootViewController(tabBarController)
+        
+                    if let hasSeenOnboarding = UserDefaults.standard.value(forKey: "hasSeenOnboarding") as? Bool {
+                        if hasSeenOnboarding {
+                            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                            let tabBarController = storyboard.instantiateViewController(identifier: "TabBarController")
+                                
+                            // This is to get the SceneDelegate object from your view controller
+                            // then call the change root view controller function to change to main tab bar
+                            (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?.changeRootViewController(tabBarController)
+                        }
+                    } else {
+                        self?.performSegue(withIdentifier: "loginToOnboardingSegue", sender: self)
+                    }
                 } else {
                     if let error = error {
                         print(error)

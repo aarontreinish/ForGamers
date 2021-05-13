@@ -8,7 +8,11 @@
 import UIKit
 
 class HomeTableViewCell: UITableViewCell {
-    @IBOutlet weak var communityNameLabel: UILabel!
+
+    @IBOutlet weak var postTitleLabel: UILabel!
+    @IBOutlet weak var userLabel: UILabel!
+    @IBOutlet weak var createdAtLabel: UILabel!
+    @IBOutlet weak var communityLabel: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()

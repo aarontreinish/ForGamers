@@ -31,6 +31,14 @@ class AccountViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        profileImageView.layer.borderWidth = 1.0
+        profileImageView.layer.masksToBounds = false
+        profileImageView.layer.borderColor = UIColor.white.cgColor
+        profileImageView.layer.cornerRadius = profileImageView.frame.size.width / 2
+        profileImageView.clipsToBounds = true
+        profileImageView.contentMode = .scaleAspectFill
+        
         populateView()
     }
     
@@ -87,9 +95,6 @@ class AccountViewController: UIViewController {
         ref = Database.database().reference()
         let currentUser = Auth.auth().currentUser
         if let currentUser = currentUser {
-            // The user's ID, unique to the Firebase project.
-            // Do NOT use this value to authenticate with your backend server,
-            // if you have one. Use getTokenWithCompletion:completion: instead.
             if let email = currentUser.email {
                 let safeEmail = DatabaseManager.safeEmail(emailAddress: email)
                 let fileName = safeEmail + "_profile_picture.png"
@@ -116,37 +121,6 @@ class AccountViewController: UIViewController {
                 }
                 
             }
-            
-
-            
-//            let uid = currentUser.uid
-//
-//            Firestore.firestore().collection("users").document(uid).getDocument { (documentSnapshot, error) in
-//                if error != nil {
-//                    completion(nil, error)
-//                } else {
-//                    if let data = documentSnapshot?.data() {
-//                        let model = try! FirestoreDecoder().decode(User.self, from: data)
-//
-//                        completion(model, nil)
-//                    }
-//                }
-//            }
-//
-//            Firestore.firestore().collection("users").document(uid)
-//                .addSnapshotListener { documentSnapshot, error in
-//                    guard let document = documentSnapshot else {
-//                        print("Error fetching document: \(error!)")
-//                        return
-//                    }
-//                    guard let data = document.data() else {
-//                        print("Document data was empty.")
-//                        return
-//                    }
-//
-//                    let model = try! FirestoreDecoder().decode(User.self, from: data)
-//                    print(model)
-//                }
         }
     }
     
@@ -168,9 +142,9 @@ class AccountViewController: UIViewController {
             if success {
                 guard let email = UserDefaults.standard.value(forKey: "email") as? String, let username = UserDefaults.standard.value(forKey: "username") as? String else { return }
                 
-                self?.usernameLabel.text = username
-                self?.emailLabel.text = email
-                self?.joinedCommunitiesLabel.text = self?.joinedCommunities.joined(separator:", ")
+                self?.usernameLabel.text = "Username: \(username)"
+                self?.emailLabel.text = "Email: \(email)"
+                self?.joinedCommunitiesLabel.text = "Joined Communities: \(self?.joinedCommunities.joined(separator:", ") ?? "")"
             }
         }
 
@@ -193,7 +167,7 @@ class AccountViewController: UIViewController {
             try Auth.auth().signOut()
             
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            let authNavigationController = storyboard.instantiateViewController(identifier: "FirstViewController")
+            let authNavigationController = storyboard.instantiateViewController(identifier: "InitialViewController")
 
             (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?.changeRootViewController(authNavigationController)
         } catch {

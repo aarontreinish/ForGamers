@@ -17,13 +17,13 @@ struct Communities: Codable {
 }
 
 struct Posts: Codable {
-    let postText: String
     let postTitle: String
     let downVoteCount: Int
     let upVoteCount: Int
     let user: String
     let createdAt: Timestamp
     let comments: [Comments]
+    let community: String
 }
 
 struct Comments: Codable {

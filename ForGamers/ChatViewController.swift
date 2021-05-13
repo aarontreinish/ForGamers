@@ -171,6 +171,8 @@ extension ChatViewController: InputBarAccessoryViewDelegate {
                 }
             }
         }
+        
+        inputBar.inputTextView.text.removeAll()
     }
     
     private func createMessageId() -> String? {
