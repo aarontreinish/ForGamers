@@ -12,17 +12,61 @@ import FirebaseAuth
 import JGProgressHUD
 
 class NewPostViewController: UIViewController {
+    
     @IBOutlet weak var postTextTextField: UITextField!
     
     let db = Firestore.firestore()
     var community: Communities?
     let hud = JGProgressHUD()
+    var pastedLink = ""
+    var containsTwitchClip = false
+    var containsYoutubeVideo = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        
     }
+    
+//    func showAlertWithTextField() {
+//        let alert = UIAlertController(title: "Paste link", message: "Please paste your link into the text field below", preferredStyle: .alert)
+//
+//        //2. Add the text field. You can configure it however you need.
+//        alert.addTextField { (textField) in
+//            textField.placeholder = "Paste link"
+//        }
+//
+//        // 3. Grab the value from the text field, and print it when the user clicks OK.
+//        alert.addAction(UIAlertAction(title: "Done", style: .default, handler: { [weak self] (_) in
+//            let textField = alert.textFields![0] // Force unwrapping because we know it exists.
+//            print("Text field: \(textField.text)")
+//            self?.pastedLink = textField.text ?? ""
+//            self?.linkLabel.text = textField.text ?? ""
+//            self?.linkLabel.isHidden = false
+//        }))
+//
+//        // 4. Present the alert.
+//        self.present(alert, animated: true, completion: nil)
+//    }
+//
+//    @IBAction func addLinkButtonAction(_ sender: Any) {
+//        let actionSheet = UIAlertController(title: "Select type of link", message: "", preferredStyle: .actionSheet)
+//
+//        actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+//
+//        actionSheet.addAction(UIAlertAction(title: "Twitch Clip", style: .default, handler: { (action) in
+//            self.containsTwitchClip = true
+//            self.showAlertWithTextField()
+//        }))
+//
+//        actionSheet.addAction(UIAlertAction(title: "Youtube Video", style: .default, handler: { (action) in
+//            self.containsYoutubeVideo = true
+//            self.showAlertWithTextField()
+//        }))
+//
+//        present(actionSheet, animated: true, completion: nil)
+//    }
     
     @IBAction func submitPostButtonAction(_ sender: Any) {
         showHud()
@@ -47,27 +91,6 @@ class NewPostViewController: UIViewController {
                         }
                     }
                 }
-    
-//                let documentRef = db.collection("communities").document(community?.communityName ?? "").collection("Posts")
-//
-//                let postText = postTextTextField.text
-//                let comments: [Comments] = []
-//                let timestamp = Timestamp(date: Date())
-//                let post = Posts(postText: postText ?? "", postTitle: "", downVoteCount: 0, upVoteCount: 0, user: email, createdAt: timestamp, comments: comments)
-//                let docData = try! FirestoreEncoder().encode(post)
-//                documentRef.updateData([
-//                    "posts": FieldValue.arrayUnion([docData])
-//                ])
-//                documentRef.updateData([
-//                    "posts": FieldValue.arrayUnion([docData])
-//                ]) { (error) in
-//                    if error != nil {
-//                        print(error)
-//                    } else {
-//                        print("Post successful")
-//                        self.dismiss(animated: true, completion: nil)
-//                    }
-//                }
             }
         }
     }

@@ -9,7 +9,7 @@ import UIKit
 import FirebaseAuth
 import FirebaseFirestore
 
-class SignUpViewController: UIViewController {
+class SignUpViewController: UIViewController, UITextFieldDelegate {
 
     @IBOutlet weak var usernameTextField: UITextField!
     @IBOutlet weak var emailTextField: UITextField!
@@ -28,6 +28,10 @@ class SignUpViewController: UIViewController {
         selectProfileImageView.layer.borderWidth = 2
         selectProfileImageView.layer.borderColor = UIColor.lightGray.cgColor
         selectProfileImageView.addGestureRecognizer(tap)
+        
+        usernameTextField.delegate = self
+        emailTextField.delegate = self
+        passwordTextField.delegate = self
     }
     
     @objc func handleTap(_ sender: UITapGestureRecognizer? = nil) {
@@ -39,6 +43,11 @@ class SignUpViewController: UIViewController {
 
         let emailPred = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
         return emailPred.evaluate(with: email)
+    }
+    
+    func textFieldShouldReturn(_ scoreText: UITextField) -> Bool {
+        self.view.endEditing(true)
+        return true
     }
 
     @IBAction func signUpButtonAction(_ sender: Any) {
@@ -86,7 +95,7 @@ class SignUpViewController: UIViewController {
                                 }
                             }
                             
-                            self?.performSegue(withIdentifier: "loginToOnboardingSegue", sender: self)
+                            self?.performSegue(withIdentifier: "signUpToOnboardingSegue", sender: self)
                             
 //                            let storyboard = UIStoryboard(name: "Main", bundle: nil)
 //                            let tabBarController = storyboard.instantiateViewController(identifier: "TabBarController")

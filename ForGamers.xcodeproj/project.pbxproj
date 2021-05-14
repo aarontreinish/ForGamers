@@ -27,6 +27,8 @@
 		214D84B3261F2D18004C4574 /* CreateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 214D84B2261F2D18004C4574 /* CreateViewController.swift */; };
 		214D84CE261F8250004C4574 /* PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 214D84CD261F8250004C4574 /* PostViewController.swift */; };
 		214D84D2261F8406004C4574 /* CommunityTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 214D84D1261F8406004C4574 /* CommunityTableViewCell.swift */; };
+		2179ED90264DB3EE00A1D472 /* CommentsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2179ED8F264DB3EE00A1D472 /* CommentsTableViewCell.swift */; };
+		2179ED94264E9E8C00A1D472 /* GrowingTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2179ED93264E9E8C00A1D472 /* GrowingTextField.swift */; };
 		218B4404264749FB00169B94 /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 218B4403264749FB00169B94 /* DatabaseManager.swift */; };
 		218B44392647506800169B94 /* ImagesExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 218B44382647506800169B94 /* ImagesExtension.swift */; };
 		218B443C264750A300169B94 /* ConversationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 218B443B264750A300169B94 /* ConversationsViewController.swift */; };
@@ -63,6 +65,8 @@
 		214D84B2261F2D18004C4574 /* CreateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateViewController.swift; sourceTree = "<group>"; };
 		214D84CD261F8250004C4574 /* PostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewController.swift; sourceTree = "<group>"; };
 		214D84D1261F8406004C4574 /* CommunityTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityTableViewCell.swift; sourceTree = "<group>"; };
+		2179ED8F264DB3EE00A1D472 /* CommentsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsTableViewCell.swift; sourceTree = "<group>"; };
+		2179ED93264E9E8C00A1D472 /* GrowingTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GrowingTextField.swift; sourceTree = "<group>"; };
 		218B4403264749FB00169B94 /* DatabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
 		218B44382647506800169B94 /* ImagesExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesExtension.swift; sourceTree = "<group>"; };
 		218B443B264750A300169B94 /* ConversationsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationsViewController.swift; sourceTree = "<group>"; };
@@ -124,6 +128,7 @@
 				214D84AD261E6F40004C4574 /* CommunityDetailsViewController.swift */,
 				214D84D1261F8406004C4574 /* CommunityTableViewCell.swift */,
 				214D84CD261F8250004C4574 /* PostViewController.swift */,
+				2179ED8F264DB3EE00A1D472 /* CommentsTableViewCell.swift */,
 				213F565B261F88DF005C1B86 /* NewPostViewController.swift */,
 				214D84B2261F2D18004C4574 /* CreateViewController.swift */,
 				218B443B264750A300169B94 /* ConversationsViewController.swift */,
@@ -144,6 +149,7 @@
 				218B44A126497F8600169B94 /* ConversationTableViewCell.swift */,
 				218B44A4264982F900169B94 /* Extensions.swift */,
 				210BC94E264C6D80004B87BB /* DiscoverViewController.swift */,
+				2179ED93264E9E8C00A1D472 /* GrowingTextField.swift */,
 			);
 			path = ForGamers;
 			sourceTree = "<group>";
@@ -295,6 +301,7 @@
 				213F56642620893C005C1B86 /* User.swift in Sources */,
 				21FC3F5C264D713C00CE272C /* OnboardingViewController.swift in Sources */,
 				218B44402647523600169B94 /* ChatViewController.swift in Sources */,
+				2179ED94264E9E8C00A1D472 /* GrowingTextField.swift in Sources */,
 				213F566026207BF5005C1B86 /* SignUpViewController.swift in Sources */,
 				218B443C264750A300169B94 /* ConversationsViewController.swift in Sources */,
 				214D83C2261DE48B004C4574 /* AppDelegate.swift in Sources */,
@@ -303,6 +310,7 @@
 				214D84AA261E6AE8004C4574 /* HomeTableViewCell.swift in Sources */,
 				21FC3E9E264D66BC00CE272C /* InitialViewController.swift in Sources */,
 				214D83C4261DE48B004C4574 /* SceneDelegate.swift in Sources */,
+				2179ED90264DB3EE00A1D472 /* CommentsTableViewCell.swift in Sources */,
 				210BC94F264C6D80004B87BB /* DiscoverViewController.swift in Sources */,
 				218B44442647693400169B94 /* NewConversationViewController.swift in Sources */,
 				214D84CE261F8250004C4574 /* PostViewController.swift in Sources */,
