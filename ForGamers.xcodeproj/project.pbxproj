@@ -117,6 +117,7 @@
 			isa = PBXGroup;
 			children = (
 				21FC3E70264D664400CE272C /* ForGamers.entitlements */,
+				216DF752264EE99F0083B246 /* Resources */,
 				214D83C1261DE48B004C4574 /* AppDelegate.swift */,
 				214D83C3261DE48B004C4574 /* SceneDelegate.swift */,
 				21FC3E9D264D66BC00CE272C /* InitialViewController.swift */,
@@ -142,16 +143,23 @@
 				214D83CC261DE48C004C4574 /* LaunchScreen.storyboard */,
 				214D83CF261DE48C004C4574 /* Info.plist */,
 				214D83D6261E011A004C4574 /* GoogleService-Info.plist */,
+				218B44A126497F8600169B94 /* ConversationTableViewCell.swift */,
+				210BC94E264C6D80004B87BB /* DiscoverViewController.swift */,
+			);
+			path = ForGamers;
+			sourceTree = "<group>";
+		};
+		216DF752264EE99F0083B246 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
 				214D848F261E5BC1004C4574 /* SnapshotExtensions.swift */,
 				218B4403264749FB00169B94 /* DatabaseManager.swift */,
 				218B44382647506800169B94 /* ImagesExtension.swift */,
 				218B444726476CE300169B94 /* StorageManager.swift */,
-				218B44A126497F8600169B94 /* ConversationTableViewCell.swift */,
 				218B44A4264982F900169B94 /* Extensions.swift */,
-				210BC94E264C6D80004B87BB /* DiscoverViewController.swift */,
 				2179ED93264E9E8C00A1D472 /* GrowingTextField.swift */,
 			);
-			path = ForGamers;
+			path = Resources;
 			sourceTree = "<group>";
 		};
 		4D29100521AC8C86BF8DFAC9 /* Pods */ = {
