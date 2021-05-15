@@ -48,11 +48,15 @@ class DiscoverViewController: UIViewController, UITableViewDelegate, UITableView
         communitiesCollections.getDocuments { [weak self] (snapshot, error) in
             if let snapshot = snapshot {
                 snapshot.documents.forEach { (document) in
-                    let model = try! FirestoreDecoder().decode(Communities.self, from: document.data())
+                    do {
+                        let model = try FirestoreDecoder().decode(Communities.self, from: document.data())
 
-                    self?.communities.append(model)
-                    DispatchQueue.main.async {
-                        self?.tableView.reloadData()
+                        self?.communities.append(model)
+                        DispatchQueue.main.async {
+                            self?.tableView.reloadData()
+                        }
+                    } catch {
+                        print(error)
                     }
                 }
                 print(self?.communities)
@@ -73,10 +77,11 @@ class DiscoverViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "discoverCell") else { return UITableViewCell() }
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "discoverCell") as? DiscoverTableViewCell else { return UITableViewCell() }
         
         let community = communities[indexPath.row]
-        cell.textLabel?.text = community.communityName
+        cell.communityNameLabel.text = community.communityName
+        cell.communityImageView.loadImageUsingCacheWithUrlString(urlString: community.communityImageURL)
         
         return cell
     }

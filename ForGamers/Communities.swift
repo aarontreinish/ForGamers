@@ -14,6 +14,7 @@ struct Communities: Codable {
     let communityName: String
     //var posts: [Posts] = []
     var users: [String] = []
+    var communityImageURL: String
 }
 
 struct Posts: Codable {

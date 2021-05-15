@@ -239,7 +239,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="lEI-ju-ab5">
-                                <rect key="frame" x="0.0" y="88" width="414" height="682"/>
+                                <rect key="frame" x="0.0" y="88" width="414" height="685"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <view key="tableHeaderView" contentMode="scaleToFill" id="0yJ-Hr-Cny">
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="218.5"/>
@@ -369,10 +369,10 @@
                                 </prototypes>
                             </tableView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7tm-6R-DQY">
-                                <rect key="frame" x="0.0" y="770" width="414" height="43"/>
+                                <rect key="frame" x="0.0" y="773" width="414" height="40"/>
                                 <subviews>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Vsr-ew-6XL" customClass="GrowingTextView" customModule="ForGamers" customModuleProvider="target">
-                                        <rect key="frame" x="8" y="5" width="368" height="33"/>
+                                        <rect key="frame" x="8" y="5" width="368" height="30"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                         <color key="textColor" systemColor="labelColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -542,13 +542,41 @@
                                 <rect key="frame" x="0.0" y="88" width="414" height="725"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="discoverCell" id="Mmy-2i-3AZ">
-                                        <rect key="frame" x="0.0" y="28" width="414" height="43.5"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="discoverCell" rowHeight="157" id="Mmy-2i-3AZ" customClass="DiscoverTableViewCell" customModule="ForGamers" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="414" height="157"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Mmy-2i-3AZ" id="TFP-Et-DT1">
-                                            <rect key="frame" x="0.0" y="0.0" width="383" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="383" height="157"/>
                                             <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="jgF-zN-8TN" customClass="CustomImageView" customModule="ForGamers" customModuleProvider="target">
+                                                    <rect key="frame" x="20" y="14" width="100" height="128"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="128" id="RGA-0V-hIL"/>
+                                                        <constraint firstAttribute="width" constant="100" id="snK-LS-mZq"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1g1-a3-4Mh">
+                                                    <rect key="frame" x="128" y="68" width="247" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="bottom" secondItem="1g1-a3-4Mh" secondAttribute="bottom" constant="68" id="JNA-Xn-p54"/>
+                                                <constraint firstItem="1g1-a3-4Mh" firstAttribute="top" secondItem="TFP-Et-DT1" secondAttribute="top" constant="68" id="Jr1-7k-XTI"/>
+                                                <constraint firstAttribute="bottom" secondItem="jgF-zN-8TN" secondAttribute="bottom" constant="15" id="beR-dv-uvm"/>
+                                                <constraint firstItem="jgF-zN-8TN" firstAttribute="top" secondItem="TFP-Et-DT1" secondAttribute="top" constant="14" id="dUj-NE-eXi"/>
+                                                <constraint firstAttribute="trailing" secondItem="1g1-a3-4Mh" secondAttribute="trailing" constant="8" id="h61-3d-U2g"/>
+                                                <constraint firstItem="jgF-zN-8TN" firstAttribute="leading" secondItem="TFP-Et-DT1" secondAttribute="leading" constant="20" id="hdf-bz-oAz"/>
+                                                <constraint firstItem="1g1-a3-4Mh" firstAttribute="leading" secondItem="jgF-zN-8TN" secondAttribute="trailing" constant="8" id="w8p-ZA-8Hu"/>
+                                            </constraints>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="communityImageView" destination="jgF-zN-8TN" id="JFv-7J-8GD"/>
+                                            <outlet property="communityNameLabel" destination="1g1-a3-4Mh" id="DoV-Fh-3Dm"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
