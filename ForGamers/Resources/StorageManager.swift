@@ -57,6 +57,49 @@ final class StorageManager {
         }
     }
     
+    public func uploadPostPicture(with data: Data, fileName: String, completion: @escaping UploadPictureCompletion) {
+        storage.child("postImages/\(fileName)").putData(data, metadata: nil) { (metadata, error) in
+            guard error == nil else {
+                completion(.failure(StorageErrors.failedToUpload))
+                return
+            }
+            
+            self.storage.child("postImages/\(fileName)").downloadURL { (url, error) in
+                guard let url = url else {
+                    completion(.failure(StorageErrors.failedToGetDownloadURL))
+                    return
+                }
+                
+                let urlString = url.absoluteString
+                print(urlString)
+                completion(.success(urlString))
+            }
+        }
+    }
+    
+    public func uploadPostVideo(with fileURL: URL, fileName: String, completion: @escaping UploadPictureCompletion) {
+        DispatchQueue.main.async {
+            self.storage.child("postVideos/\(fileName)").putFile(from: fileURL, metadata: nil) { (metadata, error) in
+                guard error == nil else {
+                    print("ERROR: \(error)")
+                    completion(.failure(StorageErrors.failedToUpload))
+                    return
+                }
+                
+                self.storage.child("postVideos/\(fileName)").downloadURL { (url, error) in
+                    guard let url = url else {
+                        completion(.failure(StorageErrors.failedToGetDownloadURL))
+                        return
+                    }
+                    
+                    let urlString = url.absoluteString
+                    print(urlString)
+                    completion(.success(urlString))
+                }
+            }
+        }
+    }
+    
     public func downloadURL(for path: String, completion: @escaping (Result<URL, Error>) -> Void) {
         let reference = storage.child(path)
         

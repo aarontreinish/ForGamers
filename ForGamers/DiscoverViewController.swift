@@ -42,7 +42,6 @@ class DiscoverViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     func getCommunities() {
-        
         let communitiesCollections = db.collection("communities")
         
         communitiesCollections.getDocuments { [weak self] (snapshot, error) in

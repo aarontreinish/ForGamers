@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import FirebaseFirestoreSwift
 import FirebaseFirestore
 import CodableFirebase
 
@@ -17,6 +16,19 @@ struct Communities: Codable {
     var communityImageURL: String
 }
 
+struct SwiftUIPosts: Identifiable {
+    var id: String = UUID().uuidString
+    let postTitle: String
+    let downVoteCount: Int
+    let upVoteCount: Int
+    let user: String
+    let createdAt: Timestamp
+    let comments: [Comments]
+    let community: String
+    let imageURL: String
+    let videoURL: String
+}
+
 struct Posts: Codable {
     let postTitle: String
     let downVoteCount: Int
@@ -25,6 +37,8 @@ struct Posts: Codable {
     let createdAt: Timestamp
     let comments: [Comments]
     let community: String
+    let imageURL: String
+    let videoURL: String
 }
 
 struct Comments: Codable {

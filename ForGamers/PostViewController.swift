@@ -165,7 +165,7 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
                 comments.append(comment)
                 
                 if let post = post {
-                    let updatedPost = Posts(postTitle: post.postTitle, downVoteCount: post.downVoteCount, upVoteCount: post.upVoteCount, user: post.user, createdAt: post.createdAt, comments: comments, community: post.community)
+                    let updatedPost = Posts(postTitle: post.postTitle, downVoteCount: post.downVoteCount, upVoteCount: post.upVoteCount, user: post.user, createdAt: post.createdAt, comments: comments, community: post.community, imageURL: post.imageURL, videoURL: post.videoURL)
                     
                     let docData = try! FirestoreEncoder().encode(updatedPost)
                     db.collection("communities").document(post.community).collection("Posts").document(post.postTitle).setData(docData) { [weak self] (error) in

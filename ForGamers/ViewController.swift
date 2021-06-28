@@ -49,10 +49,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         getUserJoinedCommunities()
     }
     
-    override func viewDidDisappear(_ animated: Bool) {
-        posts.removeAll()
-        sortedPosts.removeAll()
-    }
+//    override func viewDidDisappear(_ animated: Bool) {
+//        posts.removeAll()
+//        sortedPosts.removeAll()
+//    }
       
     @objc func refreshData() {
         posts.removeAll()
@@ -134,7 +134,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        posts.count
+        return sortedPosts.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -144,14 +144,20 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         cell.postTitleLabel.text = post.postTitle
         cell.userLabel.text = post.user
         
-        let date = post.createdAt.dateValue()
+        cell.communityLabel.text = post.community
         
+        if post.imageURL != "" {
+            cell.postImageView.loadImageUsingCacheWithUrlString(urlString: post.imageURL)
+        } else {
+            cell.postImageViewHeightConstraint.constant = 0
+        }
+        
+        let date = post.createdAt.dateValue()
         let dateFormatter = DateFormatter()
         dateFormatter.dateStyle = .long
         dateFormatter.timeStyle = .short
         let dateString = dateFormatter.string(from: date)
         cell.createdAtLabel.text = "\(dateString)"
-        cell.communityLabel.text = post.community
         
         return cell
     }

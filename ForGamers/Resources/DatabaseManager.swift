@@ -39,11 +39,21 @@ extension DatabaseManager {
     }
     
     public func userExists(with email: String, completion: @escaping ((Bool) -> Void)) {
-        
         var safeEmail = email.replacingOccurrences(of: ".", with: "-")
         safeEmail = safeEmail.replacingOccurrences(of: "@", with: "-")
         
         databse.child(safeEmail).observeSingleEvent(of: .value) { (snapshot) in
+            guard snapshot.value as? String != nil else {
+                completion(false)
+                return
+            }
+            
+            completion(true)
+        }
+    }
+    
+    public func usernameIsTaken(with username: String, completion: @escaping ((Bool) -> Void)) {
+        databse.child(username).observeSingleEvent(of: .value) { (snapshot) in
             guard snapshot.value as? String != nil else {
                 completion(false)
                 return

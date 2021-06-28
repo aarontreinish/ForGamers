@@ -20,6 +20,7 @@ class CreateViewController: UIViewController {
     var ref: DatabaseReference!
     var joinedCommunities: [String] = []
     let hud = JGProgressHUD()
+    var selectedImageURL: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,8 +34,15 @@ class CreateViewController: UIViewController {
         getUserJoinedCommunities()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        if let selectedImageURL = selectedImageURL {
+            communityImageView.loadImageUsingCacheWithUrlString(urlString: selectedImageURL)
+        }
+    }
+    
     @objc func handleTap(_ sender: UITapGestureRecognizer? = nil) {
-        presentPhotoActionSheet()
+        performSegue(withIdentifier: "selectGameSegue", sender: self)
+        //presentPhotoActionSheet()
     }
     
     func uploadCommunityPictureImage(completion: @escaping (String?, Error?) -> Void) {

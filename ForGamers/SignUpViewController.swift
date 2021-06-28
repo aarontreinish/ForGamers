@@ -65,42 +65,53 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
                         return
                     }
                     
-                    Auth.auth().createUser(withEmail: emailText, password: passwordText) { (authDataResult, error) in
-                        if error != nil {
-                            print(error)
+                    DatabaseManager.shared.usernameIsTaken(with: usernameText) { (usernameExists) in
+                        guard !usernameExists else {
+                            // TODO user already exists
+                            let alert = UIAlertController(title: "Username is taken", message: "Please choose a different username", preferredStyle: .alert)
+                            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                            self?.present(alert, animated: true, completion: nil)
+                            
+                            return
                         }
                         
-                        if let authData = authDataResult {
-                            print(authData)
+                        Auth.auth().createUser(withEmail: emailText, password: passwordText) { (authDataResult, error) in
+                            if error != nil {
+                                print(error)
+                            }
                             
-                            let user = User(username: usernameText, email: emailText, joinedCommunities: [])
-                            
-                            DatabaseManager.shared.insertUser(with: user) { (didSucceed) in
-                                if didSucceed {
-                                    UserDefaults.standard.set(emailText, forKey: "email")
-                                    
-                                    // upload image
-                                    guard let image = strongSelf.selectProfileImageView.image, let data = image.pngData() else { return }
-                                    
-                                    let fileName = user.profilePictureFileName
-                                    StorageManager.shared.uploadProfilePicture(with: data, fileName: fileName) { (result) in
-                                        switch result {
-                                        case .success(let downloadURL):
-                                            UserDefaults.standard.set(downloadURL, forKey: "profile_picture_url")
-                                            print(downloadURL)
-                                        case .failure(let error):
-                                            print("Storage manager error: \(error)")
+                            if let authData = authDataResult {
+                                print(authData)
+                                
+                                let user = User(username: usernameText, email: emailText, joinedCommunities: [])
+                                
+                                DatabaseManager.shared.insertUser(with: user) { (didSucceed) in
+                                    if didSucceed {
+                                        UserDefaults.standard.set(emailText, forKey: "email")
+                                        
+                                        // upload image
+                                        guard let image = strongSelf.selectProfileImageView.image, let data = image.pngData() else { return }
+                                        
+                                        let fileName = user.profilePictureFileName
+                                        StorageManager.shared.uploadProfilePicture(with: data, fileName: fileName) { (result) in
+                                            switch result {
+                                            case .success(let downloadURL):
+                                                UserDefaults.standard.set(downloadURL, forKey: "profile_picture_url")
+                                                print(downloadURL)
+                                            case .failure(let error):
+                                                print("Storage manager error: \(error)")
+                                            }
                                         }
                                     }
                                 }
+                                
+                                self?.performSegue(withIdentifier: "signUpToOnboardingSegue", sender: self)
+                                
+    //                            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+    //                            let tabBarController = storyboard.instantiateViewController(identifier: "TabBarController")
+    //
+    //                            (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?.changeRootViewController(tabBarController)
                             }
-                            
-                            self?.performSegue(withIdentifier: "signUpToOnboardingSegue", sender: self)
-                            
-//                            let storyboard = UIStoryboard(name: "Main", bundle: nil)
-//                            let tabBarController = storyboard.instantiateViewController(identifier: "TabBarController")
-//
-//                            (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?.changeRootViewController(tabBarController)
                         }
                     }
                 }
